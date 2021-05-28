@@ -1,5 +1,37 @@
 import pandas as pd
 from fastapi.encoders import jsonable_encoder
+import pickle
+import text2emotion as te
+import numpy as np
+import spacy
+
+nlp = spacy.load("en_core_web_lg")
+
+
+def vectorizer(text):
+    with nlp.disable_pipes():
+        vector = np.array(nlp(text).vector)
+    return vector
+
+
+def analysis(text):
+    # prediction
+    model = pickle.load(open('models/svc_model.sav', 'rb'))
+    vectorized_text = pd.DataFrame(vectorizer(text).reshape(1, -1))
+    prediction = model.predict_proba(vectorized_text).flatten()
+    # emotions
+    emotions = te.get_emotion(text)
+    df = pd.DataFrame.from_dict(emotions, orient='index').sort_values(by=0, ascending=False).reset_index()
+    df.columns = ['Emotion', 'Frequency']
+    df = df[df['Frequency'] != 0]
+    df['Frequency'] = df['Frequency']*100
+    response = {
+        'labels': df['Emotion'].tolist(),
+        'data': df['Frequency'].tolist(),
+        'positive': round(prediction[1]*100,2),
+        'negative': round(prediction[0]*100,2),
+    }
+    return jsonable_encoder(response)
 
 
 # get emotion data for piechart
