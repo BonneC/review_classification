@@ -89,19 +89,19 @@ export default {
   methods: {
     getNounsData: async function () {
       const {data} = await axios.get(
-          "http://fastapi-be:8000/nouns/" + this.id
+          "http://localhost:8080/nouns/" + this.id
       )
       return data;
     },
     getPhrasesData: async function () {
       const {data} = await axios.get(
-          "http://fastapi-be:8000/phrases/" + this.id
+          "http://localhost:8080/phrases/" + this.id
       )
       return data;
     },
     getEmotionsData: async function(){
       const {data} = await axios.get(
-          "http://fastapi-be:8000/emotions/" + this.id
+          "http://localhost:8080/emotions/" + this.id
       )
       data["colors"] = emotion_colors.get_emotion_colors(data['labels'])
       console.log('changed ems')

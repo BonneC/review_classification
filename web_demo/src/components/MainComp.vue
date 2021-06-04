@@ -94,7 +94,7 @@ export default {
       console.log()
       if(this.message.length > 0){
         const {data} = await axios.get(
-            "http://fastapi-be:8000/analysis/",
+            "http://localhost:8080/analysis/",
             {params: {
               review: this.message
               }}
