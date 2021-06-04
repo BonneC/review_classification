@@ -6,15 +6,19 @@ services:
       dockerfile: Dockerfile
     container_name: "fastapi-be"
     ports:
-      - "8080:8080"
+      - "8080:80"
+    volumes:
+      - ntlkdata:/root/nltk_data
 
   vuejs-fe:
     build:
       context: ./web_demo
     container_name: "vuejs-fe"
     ports:
-      - "8000:8000"
+      - "8000:80"
 
+volumes:
+  ntlkdata:
 #  jupyter:
 #    build:
 #      context: ./jupyter

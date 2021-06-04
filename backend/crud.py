@@ -3,22 +3,30 @@ import numpy as np
 from fastapi.encoders import jsonable_encoder
 import pickle
 import spacy
+import nltk
+import text2emotion as te
 
 
-async def download_ntlk():
-    try:
-        _ = nltk.data.find('corpora/stopwords')
-    except LookupError:
-        _ = await nltk.download('stopwords')
-        return 1
-    return 1
+# async def download_nltk():
+#     try:
+#         nltk.data.find('corpora/stopwords')
+#         console.log('nltk stopwords exist')
+#         return 1
+#     except LookupError:
+#         console.log('download nltk stopwords')
+#         _ = await nltk.download('stopwords')
+#         return 1
 
 
-if download_ntlk():
-    print('nltk downloaded')
-    import text2emotion as te
+# if download_nltk():
 
-nlp = spacy.load("en_core_web_lg")
+
+# if download_ntlk():
+#     print('nltk downloaded')
+#     import text2emotion as te
+
+
+# nlp = spacy.load("en_core_web_lg")
 
 
 def vectorizer(text):
